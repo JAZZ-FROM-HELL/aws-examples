@@ -2,14 +2,19 @@
   "name": "lambda_node",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && zip -r lambda/lambda.zip dist/ node_modules/ package.json",
     "start": "tsx src/index.ts"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.159",
     "tsx": "^4.20.6",
     "typescript": "^5.5.3"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.937.0"
+  }
 }

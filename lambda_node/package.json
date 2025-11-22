@@ -1,20 +1,15 @@
 {
   "name": "lambda_node",
   "version": "1.0.0",
-  "description": "Node.js and AWS Lambda examples",
-  "homepage": "https://github.com/JAZZ-FROM-HELL/aws#readme",
-  "bugs": {
-    "url": "https://github.com/JAZZ-FROM-HELL/aws/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JAZZ-FROM-HELL/aws.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "module",
-  "main": "index.js",
+  "description": "",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
-  }
+    "build": "tsc",
+    "start": "tsx src/index.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6",
+    "typescript": "^5.5.3"
+  },
+  "private": true
 }

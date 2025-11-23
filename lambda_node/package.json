@@ -5,8 +5,10 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && zip -r lambda/lambda.zip dist/ node_modules/ package.json",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "build": "rm -rf package/* && HASH=$(openssl rand -hex 3) && tsc && zip -qr package/package-$HASH.zip dist/ node_modules/ package.json && echo \"\nBuilt package/package-$HASH.zip successfully\"",
+    "deploy": "node scripts/deploy.js",
+    "invoke": "aws lambda invoke --function-name ${0} --cli-binary-format raw-in-base64-out --payload file://e2e/order.json ./e2e/response.json"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.159",

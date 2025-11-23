@@ -12,7 +12,7 @@ type OrderEvent = {
 /**
  * Lambda handler for processing orders and storing receipts in S3.
  */
-export const handler = async (event: OrderEvent): Promise<string> => {
+export const handler = async (event: OrderEvent): Promise<unknown> => {
     try {
         // Access environment variables
         const bucketName = process.env.RECEIPT_BUCKET;
@@ -28,7 +28,7 @@ export const handler = async (event: OrderEvent): Promise<string> => {
         await uploadReceiptToS3(bucketName, key, receiptContent);
 
         console.log(`Successfull processed order ${event.order_id} and stored receipt in S3 bucket ${bucketName}`);
-        return 'Success'
+        return { status: 'Success' }
     }
     catch (error) {
         console.error(`Failed to process order: ${error instanceof Error ? error.message : 'unknown error'}`);

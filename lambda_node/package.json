@@ -6,14 +6,22 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "tsx src/index.ts",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "build": "rm -rf package/* && HASH=$(openssl rand -hex 3) && tsc && zip -qr package/package-$HASH.zip dist/ node_modules/ package.json && echo \"\nBuilt package/package-$HASH.zip successfully\"",
     "deploy": "node scripts/deploy.js",
-    "invoke": "aws lambda invoke --function-name ${0} --cli-binary-format raw-in-base64-out --payload file://e2e/order.json ./e2e/response.json"
+    "invoke": "aws lambda invoke --function-name ${0} --cli-binary-format raw-in-base64-out --payload file://fixtures/order.json fixtures/response.json"
   },
   "devDependencies": {
+    "@aws-sdk/client-lambda": "^3.938.0",
     "@types/aws-lambda": "^8.10.159",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
     "tsx": "^4.20.6",
     "typescript": "^5.5.3"
+  },
+  "testDependencies": {
+    "@types/node": "^20.5.9"
   },
   "private": true,
   "dependencies": {

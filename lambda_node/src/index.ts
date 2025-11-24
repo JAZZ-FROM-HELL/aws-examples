@@ -2,16 +2,20 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 const s3Client = new S3Client({ region: 'eu-central-1' });
 
-type OrderEvent = {
+export type OrderEvent = {
     order_id: string;
     amount: number;
     item: string;
 }
 
+export type OrderResponse = {
+    status: string;
+}
+
 /**
  * Lambda handler for processing orders and storing receipts in S3.
  */
-export const handler = async (event: OrderEvent): Promise<unknown> => {
+export const handler = async (event: OrderEvent): Promise<OrderResponse> => {
     try {
         // Access environment variables
         const bucketName = process.env.RECEIPT_BUCKET;

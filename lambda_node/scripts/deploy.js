@@ -19,7 +19,10 @@ if (!functionName || !file) {
 
 try {
     console.log(`Deploying ${file} to Lambda function ${functionName}...`);
-    execSync(`aws lambda update-function-code --function-name ${functionName} --zip-file fileb://${file}`, { stdio: 'pipe' });
+    execSync(
+        `aws lambda update-function-code --function-name ${functionName} --zip-file fileb://${file}`,
+        { stdio: 'pipe' }
+    );
     // Wait for the update to complete
     console.log('Waiting for update to complete...');
     execSync(
@@ -29,9 +32,11 @@ try {
     console.log('Publishing version...');
     const versionOutput = execSync(
         `aws lambda publish-version --function-name ${functionName} --description "Deployed ${file} at ${new Date().toISOString()}"`,
-        { encoding: 'utf-8' }
+        {
+            encoding: 'utf-8'
+        }
     );
-    console.log('✓ Deployment successful. Published version details:', versionOutput);
+    console.log('✓ Deployment successful. ');
 }
 catch (error) {
     console.error('✗ Deployment failed:', error.message);

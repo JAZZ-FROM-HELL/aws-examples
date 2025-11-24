@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start": "tsx src/lambda/index.ts",
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "build": "rm -rf package/* && HASH=$(openssl rand -hex 3) && tsc && zip -qr package/package-$HASH.zip dist/ node_modules/ package.json && echo \"\nBuilt package/package-$HASH.zip successfully\"",
     "deploy": "node scripts/deploy.js",

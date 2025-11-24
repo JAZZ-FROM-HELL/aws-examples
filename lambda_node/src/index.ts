@@ -1,4 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { v4 as uuidv4 } from 'uuid';
 
 const s3Client = new S3Client({ region: 'eu-central-1' });
 
@@ -25,7 +26,7 @@ export const handler = async (event: OrderEvent): Promise<OrderResponse> => {
 
         // Create the receipt content and key destination
         const receiptContent = `Order ID: ${event.order_id}\nAmount :$${event.amount.toFixed(2)}\nItem: ${event.item}`;
-        const key = `receipts/${event.order_id}.txt`;
+        const key = `receipts/${event.order_id}-${uuidv4()}.txt`;
 
         // Upload the receipt to S3
         await uploadReceiptToS3(bucketName, key, receiptContent);

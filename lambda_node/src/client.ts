@@ -1,11 +1,10 @@
 import {InvokeCommand, LambdaClient} from '@aws-sdk/client-lambda'
-import {OrderEvent, OrderResponse} from "./index";
+import {OrderEvent} from "./index";
 
 const lambdaClient = new LambdaClient({ region: 'eu-central-1' })
 
 export type ClientResponse = {
     clientStatus: string;
-    orderResponse: OrderResponse;
 }
 
 export const handler = async (event: OrderEvent): Promise<ClientResponse> => {
@@ -13,20 +12,16 @@ export const handler = async (event: OrderEvent): Promise<ClientResponse> => {
         // Invooke your original Lambda function
         const invokeCommand = new InvokeCommand({
             FunctionName: 'myNodeFunction',
-            InvocationType: 'RequestResponse', // Synchronous invocation
+            InvocationType: 'Event', // Synchronous invocation
             Payload: JSON.stringify(event)
         })
 
         const response = await lambdaClient.send(invokeCommand);
 
-        // Parse the response from the original Lambda function
-        const payload: OrderResponse = JSON.parse(Buffer.from(response.Payload ?? '').toString())
-
-        console.log('Lambda function invoked successfully:', payload);
+        console.log('Lambda function invoked successfully. Rseponse StatusCode: ', response.StatusCode);
 
         return {
-            clientStatus: 'success',
-            orderResponse: payload
+            clientStatus: 'success'
         };
     }
     catch (error) {

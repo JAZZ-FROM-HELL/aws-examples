@@ -1,5 +1,5 @@
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
-import orderData from '../../fixtures/order.json';
+import orderData from '../../fixtures/lambda/order.json';
 import {ClientResponse} from "./client";
 
 const lambda = new LambdaClient({ region: 'eu-central-1' });

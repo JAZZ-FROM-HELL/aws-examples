@@ -9,10 +9,12 @@
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
     "build": "rm -rf package/* && HASH=$(openssl rand -hex 3) && tsc && zip -qr package/package-$HASH.zip dist/ node_modules/ package.json && echo \"\nBuilt package/package-$HASH.zip successfully\"",
     "deploy": "node scripts/deploy.js",
-    "invoke": "aws lambda invoke --function-name ${0} --cli-binary-format raw-in-base64-out --payload file://fixtures/order.json fixtures/response.json"
+    "invoke": "aws lambda invoke --function-name ${0} --cli-binary-format raw-in-base64-out --payload file://fixtures/order.json fixtures/lambda/response.json"
   },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.936.0",
     "@aws-sdk/client-lambda": "^3.938.0",
+    "@aws-sdk/lib-dynamodb": "^3.936.0",
     "@types/aws-lambda": "^8.10.159",
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",

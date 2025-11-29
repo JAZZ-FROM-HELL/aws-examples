@@ -1,34 +1,22 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// Import the Lambda module
-import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as events from 'aws-cdk-lib/aws-events';
+import { EventPublisher } from './constructs/event-publisher';
+import { EventConsumer } from './constructs/event-consumer';
 
 export class HelloCdkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
 
-      // Define the Lambda function resource
-      const myFunction = new lambda.Function(this, "HelloWorldFunction", {
-          runtime: lambda.Runtime.NODEJS_22_X,
-          handler: "index.handler",
-          code: lambda.Code.fromInline(`
-            exports.handler = async function(event) {
-              return {
-                statusCode: 200,
-                body: JSON.stringify('Hello CDK!'),
-              };
-            };
-          `)
-      });
+        const eventBus = new events.EventBus(this, 'MyEventBus', {
+            eventBusName: 'my-custom-event-bus'
+        });
 
-      // Define the Lambda function URL resource
-      const myFunctionUrl = myFunction.addFunctionUrl({
-          authType: lambda.FunctionUrlAuthType.NONE,
-      });
+        const publisher = new EventPublisher(this, 'Publisher', {eventBus});
+        const consumer = new EventConsumer(this, 'Consumer', {eventBus});
 
-      // Define a CloudFormation output for your URL
-      new cdk.CfnOutput(this, "myFunctionUrlOutput", {
-          value: myFunctionUrl.url,
-      })
-  }
+        new cdk.CfnOutput(this, "PublisherUrl", {
+            value: publisher.functionUrl.url,
+        });
+    }
 }

@@ -22,7 +22,7 @@ export class EventConsumer extends Construct {
         const rule = new events.Rule(this, 'Rule', {
             eventBus: props.eventBus,
             eventPattern: {
-                source: ['my.lambda.function'],
+                // source: ['my.lambda.function'],
                 detailType: ['Hello Event']
             }
         });
